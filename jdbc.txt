@@ -1,0 +1,61 @@
+package com.mycompany.mavenproject1;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.sql.Connection;
+import java.util.Scanner;
+/**
+ *
+ * @author MIT
+ */
+public class Mavenproject1 {
+
+    public static void main(String[] args) {
+        System.out.println("Hello World!");
+       
+        try{
+           
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            System.out.println("Driver loaded");
+           
+            Connection con =  DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE","hr","hr");
+            System.out.println("Connected to database");
+            Statement stmt = con.createStatement();
+            //ResultSet rs = stmt.executeQuery("select salary from employees where salary>15000");
+            Scanner myObj = new Scanner(System.in);
+            System.out.println("Enter the salary");
+            int sal  = myObj.nextInt();
+            int n = stmt.executeUpdate("update employees set salary="+sal+" where employee_id=104 ");
+            //System.out.println("The employee details are");
+            //System.out.println("Emp_ID   Name   LastName   Hire Date");
+            System.out.println("No of rows updtaed"+n);
+           
+              /*  while(rs.next())
+                {
+                   //System.out.println(rs.getInt(1)+"      "+rs.getString(2)+"   "+rs.getString(3)+"  "+rs.getDate(6));
+                    System.out.println(rs.getInt(1));
+                }
+                */
+           
+           
+            Statement stmt1 = con.createStatement();
+            ResultSet rs = stmt1.executeQuery("select * from employees where employee_id=104");
+            System.out.println("The employee details are");
+            System.out.println("Emp_ID   Name   LastName   Hire Date   Salary");
+         
+           
+                while(rs.next())
+                {
+                   System.out.println(rs.getInt(1)+"      "+rs.getString(2)+"   "+rs.getString(3)+"  "+rs.getDate(6)+"   "+rs.getInt(8));
+                   
+                }
+               
+            con.close();
+        }catch(Exception e)
+        {
+            e.toString();
+        }
+    }
+       
+}
+

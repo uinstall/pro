@@ -1,0 +1,144 @@
+
+
+///AGRREGATE FUNCTION
+student>  db.student.aggregate([{$group:{_id:"$branch",CGPA:{$sum:"$CGPA"}}}])
+[
+  { _id: 'E&TC', CGPA: 6.78 },
+  { _id: 'CS', CGPA: 18.3 },
+  { _id: null, CGPA: 0 }
+]
+//AVERAGE FUNCTION
+student>  db.student.aggregate([{$group:{_id:"$branch",CGPA:{$avg:"$CGPA"}}}])
+[
+  { _id: 'E&TC', CGPA: 6.78 },
+  { _id: 'CS', CGPA: 9.15 },
+  { _id: null, CGPA: null }
+]
+//MIN FUNCTION
+student> db.student.aggregate([{$group:{_id:"$branch",CGPA:{$min:"$CGPA"}}}])
+[
+  { _id: null, CGPA: null },
+  { _id: 'E&TC', CGPA: 6.78 },
+  { _id: 'CS', CGPA: 8.65 }
+]
+//MAX FUNCTION
+student> db.student.aggregate([{$group:{_id:"$branch",CGPA:{$max:"$CGPA"}}}])
+[
+  { _id: 'E&TC', CGPA: 6.78 },
+  { _id: 'CS', CGPA: 9.65 },
+  { _id: null, CGPA: null }
+]
+// SUM FUNCTION TO DISPLAY COUNT OF CGPA
+student> db.student.aggregate([{$group:{_id:"$branch",CGPA:{$sum:1}}}])
+[
+  { _id: 'E&TC', CGPA: 1 },
+  { _id: 'CS', CGPA: 2 },
+  { _id: null, CGPA: 1 }
+]
+
+///SORT FUNCTION ON CGPA
+
+student>  db.student.find().sort({CGPA:1})
+[
+  {
+    _id: ObjectId("645b3aba3c9ac8ec86596891"),
+    name: 'Yash',
+    language: [ { java: 2, python: 3, dart: 100 } ]
+  },
+  {
+    _id: ObjectId("645354059ccf3988a80b78a2"),
+    studentname: 'sakshi',
+    studentid: 123,
+    CGPA: 6.78,
+    add: 'pune',
+    branch: 'E&TC'
+  },
+  {
+    _id: ObjectId("645356419ccf3988a80b78a4"),
+    studentname: 'vedika',
+    studentid: 125,
+    CGPA: 8.65,
+    add: 'mumbai',
+    branch: 'CS'
+  },
+  {
+    _id: ObjectId("645354739ccf3988a80b78a3"),
+    studentname: 'vedant',
+    studentid: 124,
+    CGPA: 9.65,
+    add: 'nashik',
+    branch: 'CS'
+  }
+]
+//SORT FUNCTION ON ADDRESS
+student>  db.student.find().sort({add:1})
+[
+  {
+    _id: ObjectId("645b3aba3c9ac8ec86596891"),
+    name: 'Yash',
+    language: [ { java: 2, python: 3, dart: 100 } ]
+  },
+  {
+    _id: ObjectId("645356419ccf3988a80b78a4"),
+    studentname: 'vedika',
+    studentid: 125,
+    CGPA: 8.65,
+    add: 'mumbai',
+    branch: 'CS'
+  },
+  {
+    _id: ObjectId("645354739ccf3988a80b78a3"),
+    studentname: 'vedant',
+    studentid: 124,
+    CGPA: 9.65,
+    add: 'nashik',
+    branch: 'CS'
+  },
+  {
+    _id: ObjectId("645354059ccf3988a80b78a2"),
+    studentname: 'sakshi',
+    studentid: 123,
+    CGPA: 6.78,
+    add: 'pune',
+    branch: 'E&TC'
+  }
+]
+//LIMIT FUNCTION
+student>  db.student.find().limit(1)
+[
+  {
+    _id: ObjectId("645354059ccf3988a80b78a2"),
+    studentname: 'sakshi',
+    studentid: 123,
+    CGPA: 6.78,
+    add: 'pune',
+    branch: 'E&TC'
+  }
+]
+//insert using array
+student> db.student.insertOne({rollno:121,name:[{firstname:"swara"},{middlename:"jitendra"},{lastname:"mahajan"}]})
+{
+  acknowledged: true,
+  insertedId: ObjectId("6461d0cc736e0ffa6853990f")
+}
+student>  db.student.findOne({"name.firstname":"swara"})
+{
+  _id: ObjectId("6461d0cc736e0ffa6853990f"),
+  rollno: 121,
+  name: [
+    { firstname: 'swara' },
+    { middlename: 'jitendra' },
+    { lastname: 'mahajan' }
+  ]
+}
+student> db.student.update({rollno:121},{$set:{"name":[{"firstname":"janvi"}]}})
+DeprecationWarning: Collection.update() is deprecated. Use updateOne, updateMany, or bulkWrite.
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+//push funtion
+to do

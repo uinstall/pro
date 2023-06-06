@@ -1,0 +1,263 @@
+
+
+test> show databases
+admin     40.00 KiB
+config    72.00 KiB
+lms       72.00 KiB
+local     72.00 KiB
+sampledb  72.00 KiB
+student   72.00 KiB
+test> use c4
+switched to db c4
+c4> show databases
+admin     40.00 KiB
+config    72.00 KiB
+lms       72.00 KiB
+local     72.00 KiB
+sampledb  72.00 KiB
+student   72.00 KiB
+c4> use lms
+switched to db lms
+lms> show collections
+omjangde
+lms> db.createcollection("Department")
+TypeError: db.createcollection is not a function
+lms> db.createCollection
+[Function: createCollection] AsyncFunction {
+  apiVersions: [ 1, Infinity ],
+  returnsPromise: true,
+  serverVersions: [ '0.0.0', '999.999.999' ],
+  topologies: [ 'ReplSet', 'Sharded', 'LoadBalanced', 'Standalone' ],
+  returnType: { type: 'unknown', attributes: {} },
+  deprecated: false,
+  platforms: [ 'Compass', 'Browser', 'CLI' ],
+  isDirectShellCommand: false,
+  acceptsRawInput: false,
+  shellCommandCompleter: undefined,
+  help: [Function (anonymous)] Help
+}
+lms> db.create Collection("Department")
+Uncaught:
+SyntaxError: Missing semicolon. (1:9)
+
+> 1 | db.create Collection("Department")
+    |          ^
+  2 |
+
+lms> db.create Collection("Department")
+Uncaught:
+SyntaxError: Missing semicolon. (1:9)
+
+> 1 | db.create Collection("Department")
+    |          ^
+  2 |
+
+lms> show collections
+omjangde
+lms> db.createCollection("Department")
+{ ok: 1 }
+lms> show collections
+Department
+omjangde
+lms> db.Department.insertOne({"ID":101,"NAME":"KAVERI"})
+{
+  acknowledged: true,
+  insertedId: ObjectId("64588a94258b5ce3e57d5be7")
+}
+lms> db.Department.find()
+[
+  {
+    _id: ObjectId("64588a94258b5ce3e57d5be7"),
+    ID: 101,
+    NAME: 'KAVERI'
+  }
+]
+lms> db.Department.insertMany({"ID":102,103,104"NAME":"SWARA","DIVYA","JANVI"}
+Uncaught:
+SyntaxError: Unexpected token (1:38)
+
+> 1 | db.Department.insertMany({"ID":102,103,104"NAME":"SWARA","DIVYA","JANVI"}
+    |                                       ^
+  2 |
+
+lms>  db.Department.insertMany({"ID":102,103,104"NAME":"SWARA","DIVYA","JANVI"})
+Uncaught:
+SyntaxError: Unexpected token (1:39)
+
+> 1 |  db.Department.insertMany({"ID":102,103,104"NAME":"SWARA","DIVYA","JANVI"})
+    |                                        ^
+  2 |
+
+lms> db.Department.insertMany([{"ID":101,"NAME":"KAVERI"},{"nofstud":60},{"ID":101,{"special":"AI"}])
+Uncaught:
+SyntaxError: Unexpected token (1:78)
+
+> 1 | db.Department.insertMany([{"ID":101,"NAME":"KAVERI"},{"nofstud":60},{"ID":101,{"special":"AI"}])
+    |                                                                               ^
+  2 |
+
+lms>  db.Department.insertMany([{"ID":101,"NAME":"KAVERI"},{"nofstud":60},{"ID":101,"special":"AI"}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId("64588d84258b5ce3e57d5be8"),
+    '1': ObjectId("64588d84258b5ce3e57d5be9"),
+    '2': ObjectId("64588d84258b5ce3e57d5bea")
+  }
+}
+lms> db.Department.find()
+[
+  {
+    _id: ObjectId("64588a94258b5ce3e57d5be7"),
+    ID: 101,
+    NAME: 'KAVERI'
+  },
+  {
+    _id: ObjectId("64588d84258b5ce3e57d5be8"),
+    ID: 101,
+    NAME: 'KAVERI'
+  },
+  { _id: ObjectId("64588d84258b5ce3e57d5be9"), nofstud: 60 },
+  { _id: ObjectId("64588d84258b5ce3e57d5bea"), ID: 101, special: 'AI' }
+]
+lms> db.Department.find({"ID":101})
+[
+  {
+    _id: ObjectId("64588a94258b5ce3e57d5be7"),
+    ID: 101,
+    NAME: 'KAVERI'
+  },
+  {
+    _id: ObjectId("64588d84258b5ce3e57d5be8"),
+    ID: 101,
+    NAME: 'KAVERI'
+  },
+  { _id: ObjectId("64588d84258b5ce3e57d5bea"), ID: 101, special: 'AI' }
+]
+lms>  db.Department.find({"special":"AI"})
+[
+  { _id: ObjectId("64588d84258b5ce3e57d5bea"), ID: 101, special: 'AI' }
+]
+lms> db.Department.find({"ID":{$gt:100}})
+[
+  {
+    _id: ObjectId("64588a94258b5ce3e57d5be7"),
+    ID: 101,
+    NAME: 'KAVERI'
+  },
+  {
+    _id: ObjectId("64588d84258b5ce3e57d5be8"),
+    ID: 101,
+    NAME: 'KAVERI'
+  },
+  { _id: ObjectId("64588d84258b5ce3e57d5bea"), ID: 101, special: 'AI' }
+]
+lms>  db.Department.find({"ID":{$lte:102}})
+[
+  {
+    _id: ObjectId("64588a94258b5ce3e57d5be7"),
+    ID: 101,
+    NAME: 'KAVERI'
+  },
+  {
+    _id: ObjectId("64588d84258b5ce3e57d5be8"),
+    ID: 101,
+    NAME: 'KAVERI'
+  },
+  { _id: ObjectId("64588d84258b5ce3e57d5bea"), ID: 101, special: 'AI' }
+]
+lms>  db.Department.find({"NAME":{$gt:"A"}})
+[
+  {
+    _id: ObjectId("64588a94258b5ce3e57d5be7"),
+    ID: 101,
+    NAME: 'KAVERI'
+  },
+  {
+    _id: ObjectId("64588d84258b5ce3e57d5be8"),
+    ID: 101,
+    NAME: 'KAVERI'
+  }
+]
+lms> db.createCollection("Budget")
+{ ok: 1 }
+lms> db.Department.insertOne({"ID":101,"NAME":"KAVERI","Budget":100000})
+{
+  acknowledged: true,
+  insertedId: ObjectId("64589109258b5ce3e57d5beb")
+}
+lms> db.Department.insertOne({"ID":102,"NAME":"SWARA","Budget":200000})
+{
+  acknowledged: true,
+  insertedId: ObjectId("6458912d258b5ce3e57d5bec")
+}
+lms>  db.Department.insertOne({"ID":103,"NAME":"DIVYA","Budget":300000})
+{
+  acknowledged: true,
+  insertedId: ObjectId("6458914a258b5ce3e57d5bed")
+}
+lms>  db.Department.insertOne({"ID":104,"NAME":"JANVI","Budget":400000})
+{
+  acknowledged: true,
+  insertedId: ObjectId("64589165258b5ce3e57d5bee")
+}
+lms>  db.Department.find()
+[
+  {
+    _id: ObjectId("64588a94258b5ce3e57d5be7"),
+    ID: 101,
+    NAME: 'KAVERI'
+  },
+  {
+    _id: ObjectId("64588d84258b5ce3e57d5be8"),
+    ID: 101,
+    NAME: 'KAVERI'
+  },
+  { _id: ObjectId("64588d84258b5ce3e57d5be9"), nofstud: 60 },
+  { _id: ObjectId("64588d84258b5ce3e57d5bea"), ID: 101, special: 'AI' },
+  {
+    _id: ObjectId("64589109258b5ce3e57d5beb"),
+    ID: 101,
+    NAME: 'KAVERI',
+    Budget: 100000
+  },
+  {
+    _id: ObjectId("6458912d258b5ce3e57d5bec"),
+    ID: 102,
+    NAME: 'SWARA',
+    Budget: 200000
+  },
+  {
+    _id: ObjectId("6458914a258b5ce3e57d5bed"),
+    ID: 103,
+    NAME: 'DIVYA',
+    Budget: 300000
+  },
+  {
+    _id: ObjectId("64589165258b5ce3e57d5bee"),
+    ID: 104,
+    NAME: 'JANVI',
+    Budget: 400000
+  }
+]
+lms>  db.Department.find({"ID":{$gt:100).count()
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:34)
+
+> 1 |  db.Department.find({"ID":{$gt:100).count()
+    |                                   ^
+  2 |
+
+lms> db.Department.find({"ID":{$gt:100}).count()
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:34)
+
+> 1 | db.Department.find({"ID":{$gt:100}).count()
+    |                                   ^
+  2 |
+
+lms> db.Department.find({"ID":{$gt:100}}).count()
+7
+lms>
+
+Displaying DBMS.txt.

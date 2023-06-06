@@ -1,0 +1,108 @@
+select count (distinct job_id), job_id
+from employees
+group by job_id
+having count(*)>15
+order by job_id
+
+select department_id, max(salary)
+from employees
+group by department_id
+having max(salary) > 10000
+
+select sysdate from dual
+
+CREATE TABLE students
+(id_number      NUMBER(2),
+ name           VARCHAR(30),
+ admission_D    DATE,
+ class          VARCHAR(15),
+create_date DATE DEFAULT SYSDATE);
+
+INSERT INTO students(id_number,name,admission_D,class )
+VALUES(1,'Asmita', default,'FY');    
+
+INSERT INTO students(id_number,name,admission_D,class )
+VALUES(2,'Taniya', default,'FY');  
+
+INSERT INTO students(id_number,name,admission_D,class )
+VALUES(3,'Sanika', default,'FY');  
+
+INSERT INTO students(id_number,name,admission_D,class )
+VALUES(4,'Mansi', default, 'FY');  
+
+INSERT INTO students (id_number,name,admission_D,class )
+VALUES (5,'Jagruti', default, 'FY');  
+
+INSERT INTO students (id_number,name,admission_D,class )
+VALUES (6,'Revati', default, 'FY');
+
+INSERT INTO students (id_number,name,admission_D,class )
+VALUES (7,'Disha', default, 'FY');
+
+INSERT INTO students (id_number,name,admission_D,class )
+VALUES (8,'Payal', default, 'FY');
+
+INSERT INTO students (id_number,name,admission_D,class )
+VALUES (9,'Komal', default, 'FY');
+
+INSERT INTO students (id_number,name,admission_D,class )
+VALUES (10,'Shruti', default, 'FY');  
+ 
+select * from students
+
+UPDATE students
+SET name= 'Pranjal'
+where id_number=2;
+
+DELETE from students
+where id_number= 1;
+
+DROP table students
+
+
+CREATE TABLE students
+(id_number      NUMBER(2) not null,
+ name           VARCHAR(30),
+ admission_D    DATE,
+ class          VARCHAR(15),
+create_date DATE DEFAULT SYSDATE,
+CONSTRAINT students_student1_pk
+PRIMARY KEY (ID_NUMBER));
+
+select * from students
+
+INSERT INTO students(id_number,name,admission_D,class )
+VALUES(1,'Asmita', default,'FY');
+
+INSERT INTO students(id_number,name,admission_D,class )
+VALUES(2,'Taniya', default,'FY');  
+
+INSERT INTO students(id_number,name,admission_D,class )
+VALUES(3,'Sanika', default,'FY');  
+
+INSERT INTO students(id_number,name,admission_D,class )
+VALUES(4,'Mansi', default, 'FY');  
+
+INSERT INTO students (id_number,name,admission_D,class )
+VALUES (5,'Jagruti', default, 'FY');  
+
+INSERT INTO students (id_number,name,admission_D,class )
+VALUES (6,'Revati', default, 'FY');
+
+INSERT INTO students (id_number,name,admission_D,class )
+VALUES (7,'Disha', default, 'FY');
+
+INSERT INTO students (id_number,name,admission_D,class )
+VALUES (8,'Payal', default, 'FY');
+
+INSERT INTO students (id_number,name,admission_D,class )
+VALUES (9,'Komal', default, 'FY');
+
+INSERT INTO students (id_number,name,admission_D,class )
+VALUES (10,'Shruti', default, 'FY');  
+
+ALTER TABLE students
+ADD CONSTRAINT student_marks_max
+CHECK(marks <100);
+ 
+ALTER TABLE students READ WRITE;
